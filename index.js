@@ -3,7 +3,7 @@ const cors = require('cors');
 require('dotenv').config()
  const app = express();
  const port = process.env.PORT || 5000;
- const { MongoClient, ServerApiVersion } = require('mongodb');
+ const { MongoClient, ServerApiVersion, ObjectId } = require('mongodb');
 
  app.use(express.json());
  app.use(cors());
@@ -34,12 +34,32 @@ async function run() {
 
      const addToyCollection = client.db('toyCar').collection('newtoy');
 
+     app.get('/addtoy',async(req,res)=>{
+        console.log(req.query.email);
+        let query ={};
+        if(req.query?.email){
+            query = {email: req.query.email}
+        }
+
+        const result = await addToyCollection.find(query).toArray();
+        res.send(result)
+     })
+
+
 
      app.post('/addtoy',async(req,res)=>{
+        
         const toy =req.body;
         console.log(toy)
         const result = await addToyCollection.insertOne(toy);
         res.send(result);
+     })
+
+     app.delete('/addtoy/:id', async(req,res) =>{
+        const id= req.params.id;
+        const query = {_id: new ObjectId(id)}
+        const result = await addToyCollection.deleteOne(query);
+        res.send(result)
      })
 
     // Send a ping to confirm a successful connection
