@@ -37,7 +37,6 @@ async function run() {
 
      app.get("/addtoy/:id", async (req, res) => {
        const id = req.params.id;
-       // console.log("consoling" + id);
        console.log(id);
        const query = { _id: new ObjectId(id) };
        const result = await addToyCollection.findOne(query);
@@ -55,8 +54,6 @@ async function run() {
       const result = await addToyCollection.find(query).toArray();
       res.send(result);
     });
-     
-
     //update data
 
     app.put("/addtoy/:id", async (req, res) => {
