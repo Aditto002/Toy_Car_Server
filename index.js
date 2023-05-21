@@ -102,11 +102,6 @@ async function run() {
       res.send(result);
     });
 
-    //  app.get("/addtoy", async (req, res) => {
-    //    const result = await addToyCollection.find().toArray();
-    //    res.send(result);
-    //  });
-
     app.post("/addtoy", async (req, res) => {
       const toy = req.body;
       console.log(toy);
@@ -120,12 +115,7 @@ async function run() {
       const result = await addToyCollection.deleteOne(query);
       res.send(result);
     });
-    //  app.get('/addtoy/:id', async(req,res) =>{
-    //     const id= req.params.id;
-    //     const query = {_id: new ObjectId(id)}
-    //     const result = await addToyCollection.findOne(query);
-    //     res.send(result)
-    //  })
+
 
     // Send a ping to confirm a successful connection
     await client.db("admin").command({ ping: 1 });
