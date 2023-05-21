@@ -5,6 +5,9 @@ const app = express();
 const port = process.env.PORT || 5000;
 const { MongoClient, ServerApiVersion, ObjectId } = require("mongodb");
 
+
+
+
 app.use(express.json());
 app.use(cors());
 
@@ -28,18 +31,31 @@ const client = new MongoClient(uri, {
 async function run() {
   try {
     // Connect the client to the server	(optional starting in v4.7)
-    await client.connect();
+    // await client.connect();
 
     const addToyCollection = client.db("toyCar").collection("newtoy");
 
-    //  app.get("/addtoy/:id", async (req, res) => {
-    //    const id = req.params.id;
-    //    // console.log("consoling" + id);
-    //    console.log(id);
-    //    const query = { _id: new ObjectId(id) };
-    //    const result = await addToyCollection.findOne(query);
-    //    res.send(result);
-    //  });
+     app.get("/addtoy/:id", async (req, res) => {
+       const id = req.params.id;
+       // console.log("consoling" + id);
+       console.log(id);
+       const query = { _id: new ObjectId(id) };
+       const result = await addToyCollection.findOne(query);
+       res.send(result);
+     });
+
+     //find by catecory
+     app.get("/category", async (req, res) => {
+      console.log(req.query.category);
+      let query = {};
+      if (req.query?.category) {
+        query = { category: req.query.category };
+      }
+
+      const result = await addToyCollection.find(query).toArray();
+      res.send(result);
+    });
+     
 
     //update data
 
